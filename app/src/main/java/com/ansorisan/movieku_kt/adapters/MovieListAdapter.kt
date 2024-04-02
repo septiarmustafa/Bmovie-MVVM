@@ -14,6 +14,7 @@ class MovieListAdapter: RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
     fun setMovies(list: List<Movies>) {
         this.movieList.clear()
         this.movieList.addAll(list)
+        notifyDataSetChanged()
     }
 
     inner class ViewHolder(val binding: MovieListBinding): RecyclerView.ViewHolder(binding.root)
