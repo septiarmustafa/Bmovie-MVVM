@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
 @Parcelize
-data class DataMovie(
+data class Movies(
 
 	@field:SerializedName("overview")
 	val overview: String? = null,
