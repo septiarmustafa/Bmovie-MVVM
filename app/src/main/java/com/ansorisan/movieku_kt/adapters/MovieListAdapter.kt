@@ -32,7 +32,7 @@ class MovieListAdapter: RecyclerView.Adapter<MovieListAdapter.ViewHolder>() {
                 binding.apply {
                     title.text = originalTitle
                     lang.text = originalLanguage
-                    releaseDate.text = releaseDate.toString()
+                    releaseDate.text = movieList[position].releaseDate
                     ratingText.text = voteAverage.toString()
                     ratingBar.rating = voteAverage ?: 0f
 
