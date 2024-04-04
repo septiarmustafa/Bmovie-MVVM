@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.ansorisan.movieku_kt.api.RequestState
+import com.ansorisan.movieku_kt.models.GenreResponse
 import com.ansorisan.movieku_kt.models.MovieResponse
 import com.ansorisan.movieku_kt.repositories.MovieRepository
 import retrofit2.HttpException
@@ -16,6 +17,15 @@ class MovieViewModel: ViewModel() {
         emit(RequestState.Loading)
         try {
             val response = repo.getPopularMovie(page)
+            emit(RequestState.Success(response))
+        } catch (e: HttpException) {
+            e.response()?.errorBody()?.string()?.let { RequestState.Error(it) }?.let{emit(it)}
+        }
+    }
+
+    fun getGenres(): LiveData<RequestState<GenreResponse?>> = liveData {
+        try {
+            val response = repo.getGenres()
             emit(RequestState.Success(response))
         } catch (e: HttpException) {
             e.response()?.errorBody()?.string()?.let { RequestState.Error(it) }?.let{emit(it)}

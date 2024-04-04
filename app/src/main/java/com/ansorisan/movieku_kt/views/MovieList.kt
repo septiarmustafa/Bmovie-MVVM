@@ -24,11 +24,12 @@ class MovieList : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMovieListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        observeAnyChangePopularMovie()
+        requestThenObserveAnyChangeGenres()
+        requestThenObserveAnyChangePopularMovie()
         setupRecyclerView()
     }
 
-    private fun observeAnyChangePopularMovie(){
+    private fun requestThenObserveAnyChangePopularMovie(){
         viewModel.getPopularMovie().observe(this){
             if (it != null) {
                 when(it) {
@@ -41,6 +42,18 @@ class MovieList : AppCompatActivity() {
                         hideLoading()
                         Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                     }
+                }
+            }
+        }
+    }
+
+    private fun requestThenObserveAnyChangeGenres(){
+        viewModel.getGenres().observe(this){
+            if (it != null) {
+                when(it) {
+                    is RequestState.Loading -> {}
+                    is RequestState.Success -> it.data?.genres?.let { data -> adapter?.setGenres(data) }
+                    is RequestState.Error -> Toast.makeText(this, it.message, Toast.LENGTH_LONG).show()
                 }
             }
         }
